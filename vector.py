@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from numbers import Real
+import math
 
 @dataclass(frozen=True)
 class Vector:
@@ -34,4 +35,6 @@ class Vector:
         if not isinstance(other, Vector):
             raise TypeError(f"Expected Vector, got '{type(Vector)}'")
         return type(self)(self.y * other.z - self.z * other.y, -(self.x * other.z - self.z * other.x), self.x * other.y - self.y * other.x)
-        
+
+    def norm(self):
+        return math.hypot(self.x, self.y, self.z)
