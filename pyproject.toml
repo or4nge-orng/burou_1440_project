@@ -3,8 +3,24 @@ name = "burou-1440-project"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
+authors = [
+    { name = "Ilya Shirokov", email = "ilyashirokov32@gmail.com" }
+]
 requires-python = ">=3.14"
 dependencies = [
-    "dataclasses>=0.8",
+    "numpy>=2.5.3",
+]
+
+[project.scripts]
+burou-1440-project = "burou_1440_project:main"
+
+[build-system]
+requires = ["uv_build>=0.9.13,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
     "pytest>=9.1.1",
+    "ruff>=0.16.10",
+    "scipy>=1.18.1",
 ]
