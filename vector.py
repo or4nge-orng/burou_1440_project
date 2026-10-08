@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from numbers import Real
-import math
+from math import hypot
 
 @dataclass(frozen=True)
 class Vector:
@@ -37,7 +37,7 @@ class Vector:
         return type(self)(self.y * other.z - self.z * other.y, -(self.x * other.z - self.z * other.x), self.x * other.y - self.y * other.x)
 
     def norm(self) -> float:
-        return math.hypot(self.x, self.y, self.z)
+        return hypot(self.x, self.y, self.z)
 
     def normalized(self):
         vec_norm = self.norm()
