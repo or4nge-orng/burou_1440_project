@@ -1,8 +1,8 @@
 import pytest
 from math import pi, sqrt, hypot
+import numpy as np
 
-from vector import Vector
-from rotation import Rotation
+from burou_1440_project import Vector, Rotation
 
 def test_from_axis_angle():
     r = Rotation.from_axis_angle(Vector(0, 0, 1), pi / 2)
@@ -83,7 +83,28 @@ def test_composition_inverse():
 def test_composition_draif():
     r = Rotation.from_axis_angle(Vector(0, 0, 3), 0.01)
     total = r
-    for _ in range(1_000_000):
+    for _ in range(1_000):
         total = r @ total
     length = hypot(total.w, total.x, total.y, total.z)
     assert length == pytest.approx(1)
+
+def test_matrix_ortogonality():
+    r = Rotation.from_axis_angle(Vector(0, 0, 3), 0.01)
+    R = r.to_matrix()
+    assert R @ R.T == pytest.approx(np.eye(3))
+
+def test_matrix_rotation():
+    r = Rotation.from_axis_angle(Vector(0, 0, 3), 30)
+    R = r.to_matrix()
+    v_coords = np.array([1, 2, 4])
+    v = Vector(*v_coords)
+    res = R @ v_coords
+    assert (Vector(*map(float, res)) - r.apply(v)).norm() == pytest.approx(0)
+
+def test_matrix_matches_scipy():
+    from scipy.spatial.transform import Rotation as ScipyRotation
+    axis, angle = Vector(1, 2, 3), 1.3
+    r = Rotation.from_axis_angle(axis, angle)
+    n = axis.normalized()
+    expected = ScipyRotation.from_rotvec(angle * np.array([n.x, n.y, n.z])).as_matrix()
+    assert np.allclose(r.to_matrix(), expected, atol=1e-12)

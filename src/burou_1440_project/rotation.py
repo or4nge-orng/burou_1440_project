@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from vector import Vector
+from .vector import Vector
 from math import cos, sin, hypot
-
+import numpy as np
 @dataclass(frozen=True)
 class Rotation:
     w: float
@@ -42,3 +42,10 @@ class Rotation:
         w = w1 * w2 - u1.dot(u2)
         v = w1 * u2 + w2 * u1 + u1.cross(u2)
         return type(self)(w, v.x, v.y, v.z).normalized()
+
+    def to_matrix(self):
+        K = np.array([[0, -self.z, self.y],
+                      [self.z, 0, -self.x],
+                      [-self.y, self.x, 0]])
+        return np.eye(3) + 2 * self.w * K + 2 * K @ K
+    

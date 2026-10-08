@@ -1,6 +1,6 @@
 import pytest
 
-from vector import Vector
+from burou_1440_project import Vector
 
 def test_add():
     assert Vector(1, 2, 3) + Vector(2, 4, 6) == Vector(3, 6, 9)
