@@ -26,9 +26,9 @@ def taylor_log1p(x: float, n: int) -> float:
     if n < 0:
         raise ValueError("n must be non-negative")
     
-    res = 0
+    res = 0.0
     for i in range(n):
-        res += (-x)**i / (i + 1)
+        res += x * (-x)**i / (i + 1)
 
     return res
     
