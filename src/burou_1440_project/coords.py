@@ -1,7 +1,8 @@
 from burou_1440_project import Vector
 import math
+import numpy as np
 
-def spherical_to_cartesian(r, phi, theta) -> Vector:
+def spherical_to_cartesian(r: float, phi: float, theta: float) -> Vector:
     """
     Convert spherical coordinates to cartesian coordinates
 
@@ -24,3 +25,15 @@ def spherical_to_cartesian(r, phi, theta) -> Vector:
     z = r * math.sin(theta)
 
     return Vector(x, y, z)
+
+def spherical_jacobian(r: float, phi: float, theta: float) -> np.ndarray:
+    ct, st = math.cos(theta), math.sin(theta)
+    cp, sp = math.cos(phi), math.sin(phi)
+    jacobian = np.array([
+        [ct * cp, -r * ct * sp, -r * st * cp],
+        [ct * sp, r * ct * cp, -r * st * sp],
+        [st, 0.0, r * ct]
+    ])
+
+    return jacobian
+
