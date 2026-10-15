@@ -1,6 +1,7 @@
 from burou_1440_project import Vector
 import math
 import numpy as np
+from typing import Callable
 
 def spherical_to_cartesian(r: float, phi: float, theta: float) -> Vector:
     """
@@ -37,3 +38,21 @@ def spherical_jacobian(r: float, phi: float, theta: float) -> np.ndarray:
 
     return jacobian
 
+def numerical_jacobian(func: Callable[..., np.ndarray], point, h: float = 1e-6, scheme: str = "central") -> np.ndarray:
+    if scheme not in ("central", "forward"): raise ValueError("Unkown scheme: {scheme!r}")
+    p = np.asarray(point, dtype=float)
+    res = []
+    if scheme == "forward":
+        f0 = np.asarray(func(*p), dtype=float)
+
+    for j in range(len(p)):
+        step = np.zeros_like(p)
+        step[j] = h
+        if scheme == "central":
+            diff = np.asarray(func(*(p + step))) - np.asarray(func(*(p - step)))
+            res.append(diff / (2 * h))
+        else:
+            diff = np.asarray(func(*(p + step))) - f0
+            res.append(diff / h)
+
+    return np.column_stack(res)
