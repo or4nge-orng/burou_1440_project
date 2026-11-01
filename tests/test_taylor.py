@@ -1,7 +1,7 @@
 import pytest
 from math import sin, pi, exp, log1p
 
-from burou_1440_project import taylor_sin, taylor_exp, taylor_log1p
+from burou_1440_project.series import *
 
 @pytest.mark.parametrize("x", [0.2, 3, -0.1, 6, 8, 7])
 def test_sine_match_math(x):
@@ -20,6 +20,13 @@ def test_taylor_sin_first_terms():
     assert taylor_sin(x, 2) == pytest.approx(x - x**3 / 6)
     assert taylor_sin(x, 3) == pytest.approx(x - x**3 / 6 + x**5 / 120)
 
+def test_taylor_cos_first_terms():
+    x = 0.5
+    assert taylor_cos(x, 0) == 0
+    assert taylor_cos(x, 1) == pytest.approx(1)
+    assert taylor_cos(x, 2) == pytest.approx(1 - x**2 / 2)
+    assert taylor_cos(x, 3) == pytest.approx(1 - x**2 / 2 + x**4 / 24)
+        
 def test_taylor_exp_first_terms():
     x = 0.5
     assert taylor_exp(x, 0) == 0
