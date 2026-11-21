@@ -1,7 +1,7 @@
 import pytest
 from math import sin, pi, exp, log1p
 
-from burou_1440_project.series import *
+from mini_ballistic.series import *
 
 @pytest.mark.parametrize("x", [0.2, 3, -0.1, 6, 8, 7])
 def test_sine_match_math(x):

@@ -1,4 +1,4 @@
-from burou_1440_project.coords import *
+from mini_ballistic.coords import *
 import math
 
 from pathlib import Path
