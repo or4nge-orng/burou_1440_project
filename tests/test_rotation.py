@@ -2,7 +2,7 @@ import pytest
 from math import pi, sqrt, hypot
 import numpy as np
 
-from burou_1440_project import Vector, Rotation
+from mini_ballistic import Vector, Rotation
 
 def test_from_axis_angle():
     r = Rotation.from_axis_angle(Vector(0, 0, 1), pi / 2)

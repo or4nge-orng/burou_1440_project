@@ -1,4 +1,4 @@
-from burou_1440_project import Vector
+from mini_ballistic import Vector
 import math
 import numpy as np
 from typing import Callable

@@ -1,4 +1,4 @@
-from burou_1440_project import taylor_sin, taylor_exp, taylor_log1p
+from mini_ballistic.series import taylor_sin, taylor_exp, taylor_log1p
 import math
 
 from pathlib import Path

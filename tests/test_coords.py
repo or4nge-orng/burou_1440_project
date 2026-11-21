@@ -3,8 +3,8 @@ import pytest
 import math
 import numpy as np
 
-from burou_1440_project.coords import *
-from burou_1440_project import Vector
+from mini_ballistic.coords import *
+from mini_ballistic import Vector
 
 def _xyz(r, phi, theta):
     v = spherical_to_cartesian(r, phi, theta)
