@@ -12,7 +12,8 @@ def test_gauss():
 
 @pytest.mark.parametrize("A,b", [(np.array([[2,1,1],[1,2,1],[1,1,2]]), np.array([3,0,0])),
                                 (np.array([[1,2,3],[0,1,4],[5,6,0]]), np.array([14, 8, 32])),
-                                (np.array([[3,2],[1,4]]), np.array([5,6]))])
+                                (np.array([[3,2],[1,4]]), np.array([5,6])),
+                                (hilbert(5), np.ones(5))])
 def test_gauss_numpy(A,b):
     assert gauss_solve(A,b) == pytest.approx(np.linalg.solve(A,b))
 
@@ -33,4 +34,16 @@ def test_gauss_b_not_size_A():
     b = np.array([[1,2]])
     with pytest.raises(ValueError):
         gauss_solve(A,b)
-    
+
+def test_gauss_zero_matrix():
+    A = np.zeros((3,3))
+    b = np.array([1,2,3])
+    with pytest.raises(ValueError):
+        gauss_solve(A,b)
+
+def test_hilbert_solve():
+    size = 20
+    H = hilbert(size)
+    b = np.ones(size)
+    sol = gauss_solve(H, b, 0.0)
+    assert H @ sol == pytest.approx(b)

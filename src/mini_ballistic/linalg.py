@@ -16,7 +16,7 @@ def gauss_solve(A: np.ndarray, b: np.ndarray, eps: float = 1e-12) -> np.ndarray:
     for k in range(n):
         pivot_row = k + int(np.argmax(np.abs(A[k:, k])))
 
-        if abs(A[pivot_row, k]) < eps * scale:
+        if abs(A[pivot_row, k]) <= eps * scale:
             raise ValueError(f"A is singular at index {k}")
 
         if pivot_row != k:
@@ -32,3 +32,11 @@ def gauss_solve(A: np.ndarray, b: np.ndarray, eps: float = 1e-12) -> np.ndarray:
         x[k] = (b[k] - A[k, k+1:] @ x[k+1:]) / A[k,k]
             
     return x
+
+def hilbert(size: int) -> np.ndarray:
+    H = np.zeros((size, size))
+    for i in range(size):
+        for j in range(size):
+            H[i, j] = 1 / (i + j + 1)
+
+    return H
