@@ -59,3 +59,12 @@ def lstsq_svd(A: np.ndarray, b: np.ndarray, rcond: float = 1e-15) -> np.ndarray:
     mask = s > rcond * s[0]
     s_inv[mask] = 1 / s[mask] 
     return Vt.T @ (s_inv * (U.T @ b))
+
+def lstsq_normal(A: np.ndarray, b: np.ndarray) -> np.ndarray:
+    A = np.array(A, dtype=float)
+    b = np.array(b, dtype=float)
+
+    AtA = A.T @ A
+    Atb = A.T @ b
+
+    return gauss_solve(AtA, Atb)
