@@ -40,3 +40,40 @@ def hilbert(size: int) -> np.ndarray:
             H[i, j] = 1 / (i + j + 1)
 
     return H
+
+def lstsq_svd(A: np.ndarray, b: np.ndarray, rcond: float = 1e-15) -> np.ndarray:
+    A = np.array(A, dtype=float)
+    b = np.array(b, dtype=float)
+
+    if A.ndim != 2:
+        raise ValueError('Matrix "A" should have two dimensions')
+
+    if b.ndim != 1:
+        raise ValueError('"b" should be a vector')
+
+    if A.shape[0] != len(b):
+        raise ValueError('number of rows in "A" should be equal to the len of "b"')
+
+    U, s, Vt = np.linalg.svd(A, full_matrices=False)
+    s_inv = np.zeros_like(s)
+    mask = s > rcond * s[0]
+    s_inv[mask] = 1 / s[mask] 
+    return Vt.T @ (s_inv * (U.T @ b))
+
+def lstsq_normal(A: np.ndarray, b: np.ndarray, eps: float = 1e-12) -> np.ndarray:
+    A = np.array(A, dtype=float)
+    b = np.array(b, dtype=float)
+
+    if A.ndim != 2:
+            raise ValueError('Matrix "A" should have two dimensions')
+    
+    if b.ndim != 1:
+        raise ValueError('"b" should be a vector')
+    
+    if A.shape[0] != len(b):
+        raise ValueError('number of rows in "A" should be equal to the len of "b"')
+
+    AtA = A.T @ A
+    Atb = A.T @ b
+
+    return gauss_solve(AtA, Atb, eps)
